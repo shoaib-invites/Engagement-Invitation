@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Engagement Invitation</title>
+  <meta name="description" content="You are cordially invited to our engagement ceremony." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Tangerine:wght@700&family=Playfair+Display:ital@1&display=swap"
+    rel="stylesheet" />
+
+  <style>
+    /* ─────────────────────────────────────────
+       DESIGN TOKENS
+    ───────────────────────────────────────── */
+    :root {
+      --bg: #0b1f18;
+      --bg2: #0e2820;
+      --bg3: #112e23;
+      --gold: #c9a24d;
+      --gold-lt: #e2c07a;
+      --gold-dk: #9e7b30;
+      --ivory: #f5f0e8;
+      --ivory-dim: #c8bea8;
+      --accent: #1a4535;
+      --radius: 1.2rem;
+      --card-bg: rgba(255, 255, 255, 0.04);
+      --card-border: rgba(201, 162, 77, 0.25);
+      --shadow: 0 8px 40px rgba(0, 0, 0, 0.45);
+      --transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ─────────────────────────────────────────
+       RESET & BASE
+    ───────────────────────────────────────── */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 0%, #1e5c3a 0%, transparent 65%),
+        radial-gradient(ellipse 70% 50% at 50% 100%, #122b1e 0%, transparent 70%),
+        radial-gradient(ellipse 100% 100% at 50% 50%, #0b1f18 40%, #071410 100%);
+      color: var(--ivory);
+      font-family: 'Cormorant Garamond', 'Georgia', serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      line-height: 1.7;
+    }
+
+    /* Rich vignette overlay on body */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 55% 40% at 50% 50%, rgba(30, 92, 58, 0.18) 0%, transparent 70%),
+        radial-gradient(ellipse 100% 50% at 0% 50%, rgba(0, 0, 0, 0.55) 0%, transparent 60%),
+        radial-gradient(ellipse 100% 50% at 100% 50%, rgba(0, 0, 0, 0.55) 0%, transparent 60%),
+        radial-gradient(ellipse 100% 30% at 50% 0%, rgba(0, 0, 0, 0.6) 0%, transparent 70%),
+        radial-gradient(ellipse 100% 30% at 50% 100%, rgba(0, 0, 0, 0.65) 0%, transparent 70%);
+    }
+
+    /* Slow gold shimmer pulse on the centre */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background: radial-gradient(ellipse 50% 30% at 50% 42%, rgba(201, 162, 77, 0.06) 0%, transparent 70%);
+      animation: bgShimmer 8s ease-in-out infinite alternate;
+    }
+
+    @keyframes bgShimmer {
+      from {
+        opacity: 0.5;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* ─────────────────────────────────────────
+       ENVELOPE REVEAL OVERLAY
+    ───────────────────────────────────────── */
+    #envelope-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(ellipse at center, #14382a 0%, #07150f 100%);
+      cursor: pointer;
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    #envelope-overlay.hide {
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(1.04);
+    }
+
+    .envelope-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+      animation: floatEnv 3s ease-in-out infinite;
+    }
+
+    @keyframes floatEnv {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    .envelope-svg {
+      filter: drop-shadow(0 6px 24px rgba(201, 162, 77, 0.4));
+    }
+
+    .envelope-tap {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      color: var(--gold-lt);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      opacity: 0.85;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 0.85;
+      }
+
+      50% {
+        opacity: 0.45;
+      }
+    }
+
+    /* ─────────────────────────────────────────
+       BACKGROUND GEOMETRIC PATTERN (fixed)
+    ───────────────────────────────────────── */
+    /* Layer 1 — large hexagonal lattice */
+    #bg-pattern {
+      position: fixed;
+      inset: 0;
+      opacity: 0.07;
+      pointer-events: none;
+      z-index: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cg fill='none' stroke='%23c9a24d' stroke-width='0.9'%3E%3Cpolygon points='70,6 130,38 130,102 70,134 10,102 10,38'/%3E%3Cpolygon points='70,22 116,46 116,94 70,118 24,94 24,46'/%3E%3Cpolygon points='70,38 102,55 102,85 70,102 38,85 38,55'/%3E%3Cline x1='70' y1='6'  x2='70'  y2='134'/%3E%3Cline x1='10' y1='38' x2='130' y2='102'/%3E%3Cline x1='130' y1='38' x2='10' y2='102'/%3E%3Cline x1='10' y1='70' x2='130' y2='70'/%3E%3C/g%3E%3C/svg%3E");
+      background-size: 140px 140px;
+    }
+
+    /* Layer 2 — small 8-pointed star fill (offset, different opacity) */
+    #bg-pattern2 {
+      position: fixed;
+      inset: 0;
+      opacity: 0.055;
+      pointer-events: none;
+      z-index: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cg fill='none' stroke='%23c9a24d' stroke-width='0.7'%3E%3Crect x='10' y='10' width='40' height='40' rx='1' transform='rotate(45 30 30)'/%3E%3Crect x='15' y='15' width='30' height='30' rx='1'/%3E%3Ccircle cx='30' cy='30' r='6'/%3E%3Ccircle cx='30' cy='30' r='12' stroke-opacity='0.5'/%3E%3Cline x1='30' y1='0'  x2='30' y2='60'  stroke-opacity='0.3'/%3E%3Cline x1='0'  y1='30' x2='60'  y2='30'  stroke-opacity='0.3'/%3E%3C/g%3E%3C/svg%3E");
+      background-size: 60px 60px;
+      background-position: 30px 30px;
+    }
+
+    /* ─────────────────────────────────────────
+       LAYOUT
+    ───────────────────────────────────────── */
+    #main-content {
+      position: relative;
+      z-index: 1;
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 0 1rem 4rem;
+      opacity: 0;
+      transition: opacity 0.9s ease 0.1s;
+    }
+
+    #main-content.visible {
+      opacity: 1;
+    }
+
+    /* ─────────────────────────────────────────
+       GOLD DIVIDER
+    ───────────────────────────────────────── */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin: 2rem 0;
+      opacity: 0.6;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    /* ─────────────────────────────────────────
+       SECTION: HERO
+    ───────────────────────────────────────── */
+    #hero {
+      text-align: center;
+      padding: 3rem 0.5rem 1rem;
+    }
+
+    /* Bismillah */
+    .bismillah-arabic {
+      font-family: 'Amiri', 'Times New Roman', serif;
+      font-size: clamp(1.9rem, 7vw, 2.8rem);
+      color: var(--gold);
+      direction: rtl;
+      unicode-bidi: embed;
+      line-height: 1.6;
+      text-shadow: 0 0 30px rgba(201, 162, 77, 0.35);
+      margin-bottom: 0.3rem;
+    }
+
+    .bismillah-en {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.82rem;
+      letter-spacing: 0.12em;
+      color: var(--ivory-dim);
+      text-transform: uppercase;
+      margin-bottom: 2.5rem;
+    }
+
+    /* Crescent row */
+    .crescent-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .invited-text {
+      font-size: clamp(0.85rem, 3vw, 1rem);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ivory-dim);
+      margin-bottom: 0.5rem;
+    }
+
+    /* ─── MIHRAB ARCH ─── */
+    .arch-container {
+      position: relative;
+      width: min(320px, 88vw);
+      margin: 0 auto 2rem;
+    }
+
+    .arch-names {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.1rem;
+      padding: 3rem 1rem 2rem;
+    }
+
+    .name-groom,
+    .name-bride {
+      font-family: 'Tangerine', 'Playfair Display', cursive;
+      font-size: clamp(3rem, 13vw, 4.4rem);
+      font-weight: 700;
+      color: var(--gold);
+      line-height: 1.2;
+      text-transform: capitalize;
+      letter-spacing: 0.04em;
+      text-shadow: 0 2px 22px rgba(201, 162, 77, 0.55);
+      animation: shimmer 4s ease-in-out infinite alternate;
+    }
+
+    @keyframes shimmer {
+      from {
+        text-shadow: 0 2px 20px rgba(201, 162, 77, 0.4);
+        filter: brightness(1);
+      }
+
+      to {
+        text-shadow: 0 2px 40px rgba(201, 162, 77, 0.7);
+        filter: brightness(1.1);
+      }
+    }
+
+    .ampersand {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.4rem;
+      color: var(--ivory-dim);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin: 0.25rem 0;
+    }
+
+    .ampersand::before,
+    .ampersand::after {
+      content: '';
+      display: inline-block;
+      width: 28px;
+      height: 1px;
+      background: var(--gold-dk);
+    }
+
+    /* ─────────────────────────────────────────
+       CARDS & SECTIONS
+    ───────────────────────────────────────── */
+    .section {
+      margin-bottom: 1.8rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 1.8rem 1.4rem;
+      backdrop-filter: blur(8px);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    .card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    .section-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-align: center;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    /* ─────────────────────────────────────────
+       DATE & TIME
+    ───────────────────────────────────────── */
+    .date-display {
+      text-align: center;
+    }
+
+    .date-day-name {
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ivory-dim);
+    }
+
+    .date-big {
+      font-size: clamp(2.4rem, 10vw, 3.5rem);
+      font-weight: 300;
+      line-height: 1;
+      color: var(--gold);
+      margin: 0.15rem 0;
+    }
+
+    .date-month-year {
+      font-size: 1rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ivory-dim);
+    }
+
+    .time-display {
+      margin-top: 1rem;
+      font-size: 1.15rem;
+      color: var(--ivory);
+      text-align: center;
+      letter-spacing: 0.06em;
+    }
+
+    .time-onwards {
+      font-size: 0.8rem;
+      color: var(--ivory-dim);
+      letter-spacing: 0.1em;
+    }
+
+    /* Countdown */
+    .countdown {
+      display: flex;
+      justify-content: center;
+      gap: 0.8rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .countdown-unit {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 56px;
+    }
+
+    .countdown-num {
+      font-size: clamp(1.7rem, 7vw, 2.2rem);
+      font-weight: 300;
+      color: var(--gold);
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+      background: rgba(201, 162, 77, 0.07);
+      border: 1px solid rgba(201, 162, 77, 0.2);
+      border-radius: 0.5rem;
+      padding: 0.35rem 0.6rem;
+      min-width: 58px;
+      text-align: center;
+    }
+
+    .countdown-label {
+      font-size: 0.62rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ivory-dim);
+      margin-top: 0.3rem;
+    }
+
+    .countdown-sep {
+      color: var(--gold-dk);
+      font-size: 1.6rem;
+      align-self: flex-start;
+      padding-top: 0.4rem;
+    }
+
+    /* ─────────────────────────────────────────
+       VENUE
+    ───────────────────────────────────────── */
+    .venue-name {
+      font-size: 1.3rem;
+      color: var(--gold-lt);
+      font-style: italic;
+      text-align: center;
+      margin-bottom: 0.4rem;
+    }
+
+    .venue-address {
+      font-size: 0.95rem;
+      color: var(--ivory-dim);
+      text-align: center;
+      line-height: 1.6;
+      margin-bottom: 1.2rem;
+    }
+
+    .btn-directions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      width: 100%;
+      padding: 0.85rem 1.2rem;
+      background: linear-gradient(135deg, var(--gold-dk), var(--gold));
+      color: #0b1f18;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: none;
+      border-radius: 0.7rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: var(--transition);
+      box-shadow: 0 4px 20px rgba(201, 162, 77, 0.3);
+    }
+
+    .btn-directions:hover {
+      background: linear-gradient(135deg, var(--gold), var(--gold-lt));
+      box-shadow: 0 6px 28px rgba(201, 162, 77, 0.5);
+      transform: translateY(-1px);
+    }
+
+    /* ─────────────────────────────────────────
+       DUA
+    ───────────────────────────────────────── */
+    #dua {
+      text-align: center;
+      padding: 2rem 0.5rem;
+    }
+
+    .dua-arabic {
+      font-family: 'Amiri', serif;
+      font-size: clamp(1.3rem, 5vw, 1.7rem);
+      color: var(--gold);
+      direction: rtl;
+      unicode-bidi: embed;
+      line-height: 2;
+      margin-bottom: 0.75rem;
+    }
+
+    .dua-english {
+      font-size: 1.05rem;
+      color: var(--ivory-dim);
+      font-style: italic;
+      max-width: 360px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* ─────────────────────────────────────────
+       FROM
+    ───────────────────────────────────────── */
+    #from-section {
+      text-align: center;
+    }
+
+    .from-regards {
+      font-size: 0.8rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ivory-dim);
+      margin-bottom: 0.4rem;
+    }
+
+    .from-names {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-style: italic;
+      color: var(--gold-lt);
+      line-height: 1.5;
+    }
+
+    /* ─────────────────────────────────────────
+       ACTION BUTTONS
+    ───────────────────────────────────────── */
+    .actions-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.8rem;
+    }
+
+    .btn-action {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      padding: 1rem 0.8rem;
+      border: 1px solid var(--card-border);
+      border-radius: 0.9rem;
+      background: var(--card-bg);
+      color: var(--ivory);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.92rem;
+      letter-spacing: 0.06em;
+      cursor: pointer;
+      text-decoration: none;
+      transition: var(--transition);
+      backdrop-filter: blur(6px);
+    }
+
+    .btn-action:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: rgba(201, 162, 77, 0.07);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 18px rgba(201, 162, 77, 0.2);
+    }
+
+    .btn-action svg {
+      transition: var(--transition);
+    }
+
+    .btn-action:hover svg {
+      transform: scale(1.1);
+    }
+
+    .btn-action-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ivory-dim);
+    }
+
+    /* ─────────────────────────────────────────
+       LANTERNS
+    ───────────────────────────────────────── */
+    .lantern-row {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin: 1.5rem 0;
+      opacity: 0.7;
+    }
+
+    .lantern {
+      animation: swingLantern 4s ease-in-out infinite alternate;
+      transform-origin: top center;
+    }
+
+    .lantern:nth-child(2) {
+      animation-delay: 0.5s;
+    }
+
+    .lantern:nth-child(3) {
+      animation-delay: 1s;
+    }
+
+    @keyframes swingLantern {
+      from {
+        transform: rotate(-4deg);
+      }
+
+      to {
+        transform: rotate(4deg);
+      }
+    }
+
+    /* ─────────────────────────────────────────
+       FOOTER
+    ───────────────────────────────────────── */
+    footer {
+      text-align: center;
+      padding: 2rem 1rem 3rem;
+      color: var(--ivory-dim);
+      font-size: 0.88rem;
+      letter-spacing: 0.06em;
+    }
+
+    footer .footer-dua {
+      font-family: 'Amiri', serif;
+      font-size: 1.1rem;
+      color: var(--gold);
+      direction: rtl;
+      unicode-bidi: embed;
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+
+    /* ─────────────────────────────────────────
+       SCROLL REVEAL
+    ───────────────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.in-view {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─────────────────────────────────────────
+       REDUCED MOTION
+    ───────────────────────────────────────── */
+    @media (prefers-reduced-motion: reduce) {
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.001ms !important;
+        transition-duration: 0.001ms !important;
+      }
+    }
+
+    /* ─────────────────────────────────────────
+       RESPONSIVE
+    ───────────────────────────────────────── */
+    @media (min-width: 600px) {
+      #main-content {
+        padding: 0 2rem 4rem;
+      }
+
+      .actions-grid {
+        gap: 1rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ═══════════════════════════════════════════
+     ENVELOPE OVERLAY
+════════════════════════════════════════════ -->
+  <div id="envelope-overlay" role="button" aria-label="Tap to open invitation" tabindex="0">
+    <div class="envelope-wrap">
+
+      <svg width="200" height="18" viewBox="0 0 200 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="0" y1="9" x2="78" y2="9" stroke="#c9a24d" stroke-width="0.8" stroke-opacity="0.5" />
+        <circle cx="89" cy="9" r="3" fill="none" stroke="#c9a24d" stroke-width="0.8" />
+        <circle cx="100" cy="9" r="5" fill="none" stroke="#c9a24d" stroke-width="0.8" />
+        <circle cx="111" cy="9" r="3" fill="none" stroke="#c9a24d" stroke-width="0.8" />
+        <line x1="122" y1="9" x2="200" y2="9" stroke="#c9a24d" stroke-width="0.8" stroke-opacity="0.5" />
+      </svg>
+
+      <!-- Envelope -->
+      <svg class="envelope-svg" width="160" height="120" viewBox="0 0 160 120" xmlns="http://www.w3.org/2000/svg">
+        <rect x="4" y="28" width="152" height="88" rx="6" fill="#112e23" stroke="#c9a24d" stroke-width="1.5" />
+        <path d="M4,28 L80,78 L156,28 Z" fill="#0e2820" stroke="#c9a24d" stroke-width="1.2" />
+        <path d="M4,28 L4,116 L62,72 Z" fill="#0d2519" stroke="#c9a24d" stroke-width="0.8" />
+        <path d="M156,28 L156,116 L98,72 Z" fill="#0d2519" stroke="#c9a24d" stroke-width="0.8" />
+        <circle cx="80" cy="78" r="18" fill="#0b1f18" stroke="#c9a24d" stroke-width="1.5" />
+        <!-- crescent in seal -->
+        <path d="M80,65 A13,13 0 1,1 80,91 A9,9 0 1,0 80,65 Z" fill="#c9a24d" opacity="0.85" />
+        <circle cx="90" cy="69" r="2.5" fill="#c9a24d" opacity="0.6" />
+        <line x1="30" y1="95" x2="130" y2="95" stroke="#c9a24d" stroke-width="0.6" stroke-opacity="0.3" />
+        <line x1="40" y1="103" x2="120" y2="103" stroke="#c9a24d" stroke-width="0.6" stroke-opacity="0.2" />
+      </svg>
+
+      <p class="envelope-tap">Tap to open your invitation</p>
+
+      <svg width="120" height="12" viewBox="0 0 120 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="0" y1="6" x2="45" y2="6" stroke="#c9a24d" stroke-width="0.8" stroke-opacity="0.4" />
+        <path d="M55,2 L60,6 L65,2 L60,10 Z" fill="#c9a24d" opacity="0.5" />
+        <line x1="75" y1="6" x2="120" y2="6" stroke="#c9a24d" stroke-width="0.8" stroke-opacity="0.4" />
+      </svg>
+    </div>
+  </div>
+
+  <!-- Fixed Background Pattern -->
+  <div id="bg-pattern" aria-hidden="true"></div>
+
+  <!-- ═══════════════════════════════════════════
+     MAIN CONTENT
+════════════════════════════════════════════ -->
+  <div id="main-content" aria-live="polite">
+
+    <!-- ── HERO ── -->
+    <section id="hero" aria-label="Invitation hero">
+
+      <p class="bismillah-arabic" lang="ar" dir="rtl">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</p>
+      <p class="bismillah-en">In the name of Allah, the Most Gracious, the Most Merciful</p>
+
+      <!-- Crescent & Star -->
+      <div class="crescent-row" aria-hidden="true">
+        <svg width="18" height="18" viewBox="0 0 18 18">
+          <polygon points="9,1 11,7 17,7 12.5,11 14.5,17 9,13 3.5,17 5.5,11 1,7 7,7" fill="#c9a24d" opacity="0.7" />
+        </svg>
+        <svg width="40" height="40" viewBox="0 0 40 40">
+          <path d="M20,4 A16,16 0 1,1 20,36 A11,11 0 1,0 20,4 Z" fill="#c9a24d" opacity="0.85" />
+          <circle cx="30" cy="10" r="2" fill="#c9a24d" opacity="0.6" />
+        </svg>
+        <svg width="18" height="18" viewBox="0 0 18 18">
+          <polygon points="9,1 11,7 17,7 12.5,11 14.5,17 9,13 3.5,17 5.5,11 1,7 7,7" fill="#c9a24d" opacity="0.7" />
+        </svg>
+      </div>
+
+      <p class="invited-text">You are cordially invited to the engagement of</p>
+
+      <!-- ── MIHRAB ARCH ── -->
+      <div class="arch-container" aria-label="Couple names">
+        <svg viewBox="0 0 320 420" xmlns="http://www.w3.org/2000/svg" width="100%" style="display:block;">
+          <defs>
+            <linearGradient id="archGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#1a4535" stop-opacity="0.9" />
+              <stop offset="100%" stop-color="#0b1f18" stop-opacity="0.9" />
+            </linearGradient>
+            <linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#9e7b30" />
+              <stop offset="50%" stop-color="#e2c07a" />
+              <stop offset="100%" stop-color="#9e7b30" />
+            </linearGradient>
+            <clipPath id="archClip">
+              <path d="M30,380 L30,160 Q30,20 160,20 Q290,20 290,160 L290,380 Z" />
+            </clipPath>
+          </defs>
+
+          <!-- Arch fill -->
+          <path d="M30,380 L30,160 Q30,20 160,20 Q290,20 290,160 L290,380 Z" fill="url(#archGrad)" />
+
+          <!-- Outer gold border -->
+          <path d="M30,380 L30,160 Q30,20 160,20 Q290,20 290,160 L290,380 Z" fill="none" stroke="url(#goldGrad)"
+            stroke-width="2.5" />
+          <!-- Inner subtle border -->
+          <path d="M44,380 L44,164 Q44,36 160,36 Q276,36 276,164 L276,380 Z" fill="none" stroke="#c9a24d"
+            stroke-width="1" stroke-opacity="0.3" />
+
+          <!-- Muqarnas scallop at arch crown -->
+          <g stroke="#c9a24d" fill="none" opacity="0.5">
+            <path
+              d="M80,80 Q90,65 100,80 Q110,65 120,80 Q130,65 140,80 Q150,65 160,80 Q170,65 180,80 Q190,65 200,80 Q210,65 220,80 Q230,65 240,80"
+              stroke-width="1" />
+            <path
+              d="M90,100 Q100,85 110,100 Q120,85 130,100 Q140,85 150,100 Q160,85 170,100 Q180,85 190,100 Q200,85 210,100 Q220,85 230,100"
+              stroke-width="0.8" />
+          </g>
+
+          <!-- Central rosette -->
+          <g transform="translate(160,110)" stroke="#c9a24d" fill="none" opacity="0.45">
+            <circle r="20" stroke-width="0.8" />
+            <circle r="12" stroke-width="0.8" />
+            <circle r="5" stroke-width="0.8" />
+            <polygon points="0,-20 5.9,-5.9 20,0 5.9,5.9 0,20 -5.9,5.9 -20,0 -5.9,-5.9" stroke-width="0.7" />
+            <polygon points="0,-12 3.5,-3.5 12,0 3.5,3.5 0,12 -3.5,3.5 -12,0 -3.5,-3.5" stroke-width="0.7" />
+          </g>
+
+          <!-- Side decorative lines (left) -->
+          <g clip-path="url(#archClip)" stroke="#c9a24d" fill="none" opacity="0.1">
+            <line x1="44" y1="150" x2="44" y2="380" />
+            <line x1="58" y1="150" x2="58" y2="380" />
+            <line x1="44" y1="200" x2="80" y2="200" />
+            <line x1="44" y1="250" x2="80" y2="250" />
+            <line x1="44" y1="300" x2="80" y2="300" />
+            <line x1="44" y1="350" x2="80" y2="350" />
+            <line x1="240" y1="150" x2="276" y2="150" />
+            <line x1="240" y1="200" x2="276" y2="200" />
+            <line x1="240" y1="250" x2="276" y2="250" />
+            <line x1="240" y1="300" x2="276" y2="300" />
+            <line x1="240" y1="350" x2="276" y2="350" />
+            <line x1="262" y1="150" x2="262" y2="380" />
+            <line x1="276" y1="150" x2="276" y2="380" />
+          </g>
+
+          <!-- Arabesque lower corners -->
+          <g stroke="#c9a24d" stroke-width="0.9" fill="none" opacity="0.35">
+            <path d="M50,330 Q60,315 70,330 Q80,315 90,330" />
+            <path d="M50,345 Q60,332 70,345 Q80,332 90,345" />
+            <path d="M230,330 Q240,315 250,330 Q260,315 270,330" />
+            <path d="M230,345 Q240,332 250,345 Q260,332 270,345" />
+          </g>
+
+          <!-- Gold rule under names -->
+          <line x1="85" y1="360" x2="235" y2="360" stroke="url(#goldGrad)" stroke-width="1" opacity="0.5" />
+        </svg>
+
+        <!-- Names overlaid -->
+        <div class="arch-names">
+          <span class="name-groom" id="name-groom">[Groom Name]</span>
+          <div class="ampersand"><span>&amp;</span></div>
+          <span class="name-bride" id="name-bride">[Bride Name]</span>
+        </div>
+      </div>
+
+      <!-- Lanterns -->
+      <div class="lantern-row" aria-hidden="true">
+        <svg class="lantern" width="28" height="52" viewBox="0 0 28 52" xmlns="http://www.w3.org/2000/svg">
+          <line x1="14" y1="0" x2="14" y2="6" stroke="#c9a24d" stroke-width="1.2" />
+          <ellipse cx="14" cy="8" rx="5" ry="2.5" fill="#c9a24d" opacity="0.6" />
+          <path d="M6,10 Q4,28 6,40 L22,40 Q24,28 22,10 Z" fill="none" stroke="#c9a24d" stroke-width="1.2" />
+          <ellipse cx="14" cy="10" rx="8" ry="3" fill="none" stroke="#c9a24d" stroke-width="1" />
+          <ellipse cx="14" cy="40" rx="8" ry="3" fill="none" stroke="#c9a24d" stroke-width="1" />
+          <line x1="14" y1="10" x2="14" y2="40" stroke="#c9a24d" stroke-width="0.7" opacity="0.4" />
+          <line x1="6" y1="25" x2="22" y2="25" stroke="#c9a24d" stroke-width="0.7" opacity="0.4" />
+          <ellipse cx="14" cy="25" rx="4" ry="5" fill="#c9a24d" opacity="0.06" />
+          <line x1="10" y1="42" x2="14" y2="48" stroke="#c9a24d" stroke-width="1" />
+          <line x1="18" y1="42" x2="14" y2="48" stroke="#c9a24d" stroke-width="1" />
+        </svg>
+        <svg class="lantern" width="28" height="52" viewBox="0 0 28 52" xmlns="http://www.w3.org/2000/svg">
+          <line x1="14" y1="0" x2="14" y2="6" stroke="#c9a24d" stroke-width="1.2" />
+          <ellipse cx="14" cy="8" rx="5" ry="2.5" fill="#c9a24d" opacity="0.6" />
+          <path d="M6,10 Q4,28 6,40 L22,40 Q24,28 22,10 Z" fill="none" stroke="#c9a24d" stroke-width="1.2" />
+          <ellipse cx="14" cy="10" rx="8" ry="3" fill="none" stroke="#c9a24d" stroke-width="1" />
+          <ellipse cx="14" cy="40" rx="8" ry="3" fill="none" stroke="#c9a24d" stroke-width="1" />
+          <line x1="14" y1="10" x2="14" y2="40" stroke="#c9a24d" stroke-width="0.7" opacity="0.4" />
+          <line x1="6" y1="25" x2="22" y2="25" stroke="#c9a24d" stroke-width="0.7" opacity="0.4" />
+          <ellipse cx="14" cy="25" rx="4" ry="5" fill="#c9a24d" opacity="0.06" />
+          <line x1="10" y1="42" x2="14" y2="48" stroke="#c9a24d" stroke-width="1" />
+          <line x1="18" y1="42" x2="14" y2="48" stroke="#c9a24d" stroke-width="1" />
+        </svg>
+        <svg class="lantern" width="28" height="52" viewBox="0 0 28 52" xmlns="http://www.w3.org/2000/svg">
+          <line x1="14" y1="0" x2="14" y2="6" stroke="#c9a24d" stroke-width="1.2" />
+          <ellipse cx="14" cy="8" rx="5" ry="2.5" fill="#c9a24d" opacity="0.6" />
+          <path d="M6,10 Q4,28 6,40 L22,40 Q24,28 22,10 Z" fill="none" stroke="#c9a24d" stroke-width="1.2" />
+          <ellipse cx="14" cy="10" rx="8" ry="3" fill="none" stroke="#c9a24d" stroke-width="1" />
+          <ellipse cx="14" cy="40" rx="8" ry="3" fill="none" stroke="#c9a24d" stroke-width="1" />
+          <line x1="14" y1="10" x2="14" y2="40" stroke="#c9a24d" stroke-width="0.7" opacity="0.4" />
+          <line x1="6" y1="25" x2="22" y2="25" stroke="#c9a24d" stroke-width="0.7" opacity="0.4" />
+          <ellipse cx="14" cy="25" rx="4" ry="5" fill="#c9a24d" opacity="0.06" />
+          <line x1="10" y1="42" x2="14" y2="48" stroke="#c9a24d" stroke-width="1" />
+          <line x1="18" y1="42" x2="14" y2="48" stroke="#c9a24d" stroke-width="1" />
+        </svg>
+      </div>
+    </section>
+
+    <!-- Gold Divider -->
+    <div class="divider" aria-hidden="true">
+      <svg width="22" height="22" viewBox="0 0 22 22">
+        <polygon points="11,1 13.5,8.5 21,8.5 15,13.5 17.5,21 11,16.5 4.5,21 7,13.5 1,8.5 8.5,8.5" fill="#c9a24d"
+          opacity="0.7" />
+      </svg>
+    </div>
+
+    <!-- ── DATE & TIME ── -->
+    <section class="section reveal" aria-label="Date and time">
+      <div class="card">
+        <div class="section-label">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <circle cx="7" cy="7" r="6" stroke="#c9a24d" stroke-width="1" />
+            <line x1="7" y1="3" x2="7" y2="7" stroke="#c9a24d" stroke-width="1.2" stroke-linecap="round" />
+            <line x1="7" y1="7" x2="10" y2="9" stroke="#c9a24d" stroke-width="1.2" stroke-linecap="round" />
+          </svg>
+          Date &amp; Time
+        </div>
+        <div class="date-display">
+          <p class="date-day-name" id="display-day"></p>
+          <p class="date-big" id="display-date"></p>
+          <p class="date-month-year" id="display-month-year"></p>
+          <p class="time-display">
+            <span id="display-time"></span>&nbsp;<span class="time-onwards">onwards</span>
+          </p>
+        </div>
+        <!-- Countdown -->
+        <div class="countdown" id="countdown-wrap" aria-label="Countdown to event">
+          <div class="countdown-unit">
+            <span class="countdown-num" id="cd-days">--</span>
+            <span class="countdown-label">Days</span>
+          </div>
+          <span class="countdown-sep" aria-hidden="true">:</span>
+          <div class="countdown-unit">
+            <span class="countdown-num" id="cd-hours">--</span>
+            <span class="countdown-label">Hours</span>
+          </div>
+          <span class="countdown-sep" aria-hidden="true">:</span>
+          <div class="countdown-unit">
+            <span class="countdown-num" id="cd-mins">--</span>
+            <span class="countdown-label">Mins</span>
+          </div>
+          <span class="countdown-sep" aria-hidden="true">:</span>
+          <div class="countdown-unit">
+            <span class="countdown-num" id="cd-secs">--</span>
+            <span class="countdown-label">Secs</span>
+          </div>
+        </div>
+        <p id="countdown-done"
+          style="display:none; text-align:center; color:var(--gold); font-style:italic; margin-top:1rem;">
+          The celebration has begun! &#127882;
+        </p>
+      </div>
+    </section>
+
+    <!-- Gold Divider -->
+    <div class="divider" aria-hidden="true">
+      <svg width="16" height="16" viewBox="0 0 16 16">
+        <path d="M8,1 Q11,4 15,8 Q11,12 8,15 Q5,12 1,8 Q5,4 8,1 Z" fill="none" stroke="#c9a24d" stroke-width="1"
+          opacity="0.7" />
+        <circle cx="8" cy="8" r="2" fill="#c9a24d" opacity="0.5" />
+      </svg>
+    </div>
+
+    <!-- ── VENUE ── -->
+    <section class="section reveal" aria-label="Venue information">
+      <div class="card">
+        <div class="section-label">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M7,1 A5,5 0 1,1 7,11 L7,14" stroke="#c9a24d" stroke-width="1" stroke-linecap="round" />
+            <circle cx="7" cy="6" r="1.8" fill="#c9a24d" opacity="0.5" />
+          </svg>
+          Venue
+        </div>
+        <p class="venue-name" id="display-venue-name"></p>
+        <p class="venue-address" id="display-venue-address"></p>
+        <a id="btn-maps" href="#" target="_blank" rel="noopener noreferrer" class="btn-directions">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M8,1 A5.5,5.5 0 1,1 8,12 L8,16" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+            <circle cx="8" cy="6.5" r="2" fill="currentColor" opacity="0.6" />
+          </svg>
+          Get Directions
+        </a>
+      </div>
+    </section>
+
+    <!-- Gold Divider -->
+    <div class="divider" aria-hidden="true">
+      <svg width="22" height="22" viewBox="0 0 22 22">
+        <polygon points="11,1 13.5,8.5 21,8.5 15,13.5 17.5,21 11,16.5 4.5,21 7,13.5 1,8.5 8.5,8.5" fill="#c9a24d"
+          opacity="0.7" />
+      </svg>
+    </div>
+
+    <!-- ── DUA ── -->
+    <section id="dua" class="reveal" aria-label="Dua and blessing">
+      <svg width="180" height="28" viewBox="0 0 180 28" fill="none" xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true" style="margin:0 auto 1rem; display:block; opacity:0.5;">
+        <path d="M0,14 Q15,4 30,14 Q45,24 60,14 Q75,4 90,14 Q105,24 120,14 Q135,4 150,14 Q165,24 180,14"
+          stroke="#c9a24d" stroke-width="1.2" fill="none" />
+        <circle cx="90" cy="14" r="3" fill="#c9a24d" opacity="0.7" />
+      </svg>
+      <p class="dua-arabic" lang="ar" dir="rtl">
+        بَارَكَ اللهُ لَكُمَا وَبَارَكَ عَلَيْكُمَا وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ
+      </p>
+      <p class="dua-english">
+        &ldquo;May Allah bless this union and fill it with love, mercy, and barakah.&rdquo;
+      </p>
+    </section>
+
+    <!-- Gold Divider -->
+    <div class="divider" aria-hidden="true">
+      <svg width="16" height="16" viewBox="0 0 16 16">
+        <path d="M8,1 Q11,4 15,8 Q11,12 8,15 Q5,12 1,8 Q5,4 8,1 Z" fill="none" stroke="#c9a24d" stroke-width="1"
+          opacity="0.7" />
+        <circle cx="8" cy="8" r="2" fill="#c9a24d" opacity="0.5" />
+      </svg>
+    </div>
+
+    <!-- ── FROM ── -->
+    <section id="from-section" class="section reveal" aria-label="From the families">
+      <p class="from-regards">With warm regards</p>
+      <p class="from-names" id="display-from"></p>
+    </section>
+
+
+
+    <!-- ── FOOTER ── -->
+    <footer>
+      <svg width="240" height="32" viewBox="0 0 240 32" fill="none" xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true" style="display:block; margin:0 auto 1.2rem; opacity:0.45;">
+        <line x1="0" y1="16" x2="88" y2="16" stroke="#c9a24d" stroke-width="0.8" />
+        <path d="M95,8 L100,16 L105,8 L110,16 L115,8 L120,16 L125,8 L130,16 L135,8 L140,16 L145,8" stroke="#c9a24d"
+          stroke-width="0.8" fill="none" />
+        <line x1="152" y1="16" x2="240" y2="16" stroke="#c9a24d" stroke-width="0.8" />
+      </svg>
+      <span class="footer-dua" lang="ar" dir="rtl">جَزَاكُمُ اللهُ خَيْرًا</span>
+      Jazakumullah Khair for your presence and duas.
+    </footer>
+
+  </div><!-- /#main-content -->
+
+  <script>
+    /* ══════════════════════════════════════════════════════════
+       ▸ EDITABLE CONFIG
+         Change all your event details here — nothing else needs
+         to be touched in the rest of the file.
+    ═══════════════════════════════════════════════════════════ */
+    const CONFIG = {
+      /* Names */
+      groomName: "Mohammed Shoaib",
+      brideName: "Huda Anjum",
+
+      /* Event date/time — ISO-8601, LOCAL time of the event.
+         Example: "2025-12-20T18:00:00"                       */
+      eventDateTime: "2026-10-24T20:00:00",
+
+      /* Human-readable display strings shown on the card */
+      displayDay: "Saturday",        // e.g. "Saturday"
+      displayDate: "24",              // just the number
+      displayMonthYear: "October 2026",
+      displayTime: "7:30 PM",
+
+      /* Venue */
+      venueName: "Noorani Funtion Hall",
+      venueAddress: "Nehru Nagar, Mandya, Karnataka 571401",
+      mapsUrl: "https://maps.app.goo.gl/HkthGKs2ZGSgH1vx9",
+
+      /* Host / family names (shown in the "From" section) */
+      fromNames: "The Families of Mohammed Yousuf Ali<br>&amp; Abdul Hannan",
+
+      /* RSVP WhatsApp — international format, digits only */
+      whatsappNumber: "911234567890",
+      whatsappMessage: "Assalamu Alaikum! I am delighted to confirm my attendance at the engagement ceremony. Jazakumullah Khair.",
+
+      /* Browser tab title */
+      pageTitle: "Engagement Invitation",
+    };
+    /* ══════════════════════════════════════════════════════════ */
+
+
+    /* ── Apply config to DOM ── */
+    document.title = CONFIG.pageTitle;
+
+    document.getElementById("name-groom").textContent = CONFIG.groomName;
+    document.getElementById("name-bride").textContent = CONFIG.brideName;
+    document.getElementById("display-day").textContent = CONFIG.displayDay;
+    document.getElementById("display-date").textContent = CONFIG.displayDate;
+    document.getElementById("display-month-year").textContent = CONFIG.displayMonthYear;
+    document.getElementById("display-time").textContent = CONFIG.displayTime;
+    document.getElementById("display-venue-name").textContent = CONFIG.venueName;
+    document.getElementById("display-venue-address").textContent = CONFIG.venueAddress;
+    document.getElementById("display-from").innerHTML = CONFIG.fromNames;
+
+    /* Maps button */
+    document.getElementById("btn-maps").href = CONFIG.mapsUrl;
+
+
+
+
+
+
+    /* ── Live Countdown Timer ── */
+    function updateCountdown() {
+      var target = new Date(CONFIG.eventDateTime).getTime();
+      var now = Date.now();
+      var diff = target - now;
+
+      if (diff <= 0) {
+        document.getElementById("countdown-wrap").style.display = "none";
+        document.getElementById("countdown-done").style.display = "block";
+        return;
+      }
+
+      var days = Math.floor(diff / 86400000);
+      var hours = Math.floor((diff % 86400000) / 3600000);
+      var mins = Math.floor((diff % 3600000) / 60000);
+      var secs = Math.floor((diff % 60000) / 1000);
+
+      function pad(n) { return String(n).padStart(2, "0"); }
+      document.getElementById("cd-days").textContent = pad(days);
+      document.getElementById("cd-hours").textContent = pad(hours);
+      document.getElementById("cd-mins").textContent = pad(mins);
+      document.getElementById("cd-secs").textContent = pad(secs);
+    }
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+
+    /* ── Envelope Reveal ── */
+    var overlay = document.getElementById("envelope-overlay");
+    var mainContent = document.getElementById("main-content");
+
+    function openInvitation() {
+      overlay.classList.add("hide");
+      setTimeout(function () {
+        overlay.style.display = "none";
+        mainContent.classList.add("visible");
+        initScrollReveal();
+      }, 880);
+    }
+
+    overlay.addEventListener("click", openInvitation);
+    overlay.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") openInvitation();
+    });
+
+
+    /* ── Scroll Reveal ── */
+    function initScrollReveal() {
+      var els = document.querySelectorAll(".reveal");
+
+      /* Stagger transition delays */
+      els.forEach(function (el, i) {
+        el.style.transitionDelay = (i * 0.09) + "s";
+      });
+
+      /* Respect prefers-reduced-motion */
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        els.forEach(function (el) { el.classList.add("in-view"); });
+        return;
+      }
+
+      /* IntersectionObserver */
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("in-view");
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1, rootMargin: "0px 0px -30px 0px" });
+
+      els.forEach(function (el) { observer.observe(el); });
+
+      /* Reveal anything already in the viewport */
+      setTimeout(function () {
+        els.forEach(function (el) {
+          var r = el.getBoundingClientRect();
+          if (r.top < window.innerHeight) {
+            el.classList.add("in-view");
+            observer.unobserve(el);
+          }
+        });
+      }, 120);
+    }
+  </script>
+</body>
+
+</html>
